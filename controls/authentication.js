@@ -369,3 +369,26 @@ exports.bannedAccounts = async (req, res, next)=>{
   })
 }
 }
+exports.editProfile = async (req, res, next)=>{
+  const users = await User.findOne({_id: req.params.userId});
+  console.log(users);
+  users.firstname = req.body.firstname
+  users.lastname = req.body.lastname
+  users.email = req.body.email
+  if(users){
+    users.firstname = req.body.firstname
+    users.lastname = req.body.lastname
+    users.email = req.body.email
+    users.save();
+    res.json({
+      status: 'success',
+      users
+    })
+  }
+  else{
+  res.json({
+    status: 'failure',
+    message: "No Account has benn banned yet."
+  })
+}
+}

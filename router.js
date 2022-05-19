@@ -51,7 +51,7 @@ var jsonparsor = bodyparser.json();
 router.post('/super', jsonparsor, (req, res, next)=>{})
 router.post('/login',jsonparsor,  authenticate.login);
 router.get('/findUser/:userId',jsonparsor,  authenticate.findUser);
-
+router.post('/editProfile/:userId', jsonparsor, authenticate.editProfile);
 router.post('/forgotPassword', jsonparsor, authenticate.forgotPassword);
 router.post('/signup', jsonparsor, authenticate.signup);
 router.post('/adminSignup', jsonparsor,protect.protectRoute, protect.restrictTo('super-admin'), authenticate.customSignup);
@@ -59,7 +59,9 @@ router.post('/users/resetPassword', jsonparsor, authenticate.changeOfPassword);
 router.post('/adminsPasswordReset/:userId',jsonparsor,protect.protectRoute, protect.restrictTo('forum-admin','material-admin','info-director','club-president'), authenticate.resetPassword )
 router.get('/getAllAdmins', jsonparsor, protect.protectRoute, protect.restrictTo('super-admin'), authenticate.getAllAdmins)
 router.post('/ban/:uId', jsonparsor, protect.protectRoute, protect.restrictTo('forum-admin'), authenticate.ban)     
-        // Forum routes
+       
+
+// Forum routes
 router.post('/postQuestion/:userId',jsonparsor,protect.protectRoute, protect.restrictTo('student'),  forumjs.postQuestion);
 router.put('/editQuestion/:id', jsonparsor, protect.protectRoute, protect.restrictTo('student'),  forumjs.editQuestion);
 router.post('/rateQuestion/:id', jsonparsor,  forumjs.rateQuestion);
@@ -82,12 +84,13 @@ router.get('/bannedAccounts', jsonparsor, protect.protectRoute, protect.restrict
 
       // Information routes
 router.post('/postEvent/:userId', jsonparsor, upload, protect.protectRoute, protect.restrictTo('info-director'),events.addEvents );
-router.get('/getEvent', jsonparsor, upload,events.getAllEvents, );
+router.get('/getEvent', jsonparsor, upload, events.getAllEvents, );
 router.delete('/removeEvent/:id', jsonparsor,  events.deleteEvent );
 router.delete('/getAllEvent/:id', jsonparsor, protect.protectRoute, protect.restrictTo('info-director','club-president'), events.getEvents );
 router.get('/getClubEvent/:userId', jsonparsor, protect.protectRoute, protect.restrictTo('info-director','club-president'), events.getClubEvents );
 router.post('/addClubEvent/:userId', jsonparsor, upload, protect.protectRoute, protect.restrictTo('club-president'), events.addClubEvents );
 router.put('/editClubEvent/:userId/:id', jsonparsor, upload, protect.protectRoute, protect.restrictTo('club-president'), events.editEvent );
+router.put('/editEvent/:id', jsonparsor, upload, protect.protectRoute, protect.restrictTo('info-director'), events.editEvent );
 
 
 

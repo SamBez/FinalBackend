@@ -5,7 +5,7 @@ const path = require('path')
 exports.addEvents = async(req, res, next)=>{
   console.log(req.body)
   console.log(req.file)
-     const Event = {
+     const data = {
          title: req.body.title,
          body: req.body.body,
          userId: req.params.userId,
@@ -15,8 +15,9 @@ exports.addEvents = async(req, res, next)=>{
          
      }
    //  console.log(Event);
-   await Events.create(Event, (err, result)=>{
-      if(err){
+   const event = await Events.create(data)
+
+      if(event == null){
           res.json({
               status: 'failure',
               message: " File Couldnot be posted"
@@ -26,13 +27,12 @@ exports.addEvents = async(req, res, next)=>{
         }
           else{
             res.json({
-              status: " success",
-              data: result
+              status: "success",
+              data: event
             })
-            console.log(result);
+            console.log(event);
             next();
           }
-   })
 }
 
 exports.addClubEvents = async(req, res, next)=>{
@@ -70,13 +70,14 @@ exports.addClubEvents = async(req, res, next)=>{
 
 exports.getAllEvents = async( req, res, next)=>{
   var date = new Date(Date.now() + 5*24*60*60*1000);
-    const Event = await Events.find({});
+    
+  const Event = await Events.find({});
+    console.log(Event)
+
     if (Event){
-      res.status(201).json({
-        status: " success",
-        body:{
-          Event
-        }
+      res.json({
+        status: "success",
+        Event
       })
     }
     else{
@@ -89,7 +90,8 @@ exports.getAllEvents = async( req, res, next)=>{
 
 exports.getEvents = async( req, res, next)=>{
   var date = new Date(Date.now() + 5*24*60*60*1000);
-    const Event = await Events.find({userId: req.params.userId});
+    const Event = await Events.find({userId: req.params.id});
+    
     if (Event){
       res.status(201).json({
         status: " success",

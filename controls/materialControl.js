@@ -31,7 +31,7 @@ exports.addMaterial = async(req, res, next)=>{
           else{
             res.json({
               status: " success",
-              data: result
+              result
             })
             console.log(result);
             next();
@@ -39,21 +39,23 @@ exports.addMaterial = async(req, res, next)=>{
    })
 }
 exports.getAllMaterials = async( req, res, next)=>{
-  var date = new Date(Date.now() + 5*24*60*60*1000);
+//  var date = new Date(Date.now() + 5*24*60*60*1000);
     const materials = await Material.find({});
-    console.log(materials)
+
+    console.log(materials);
     if (materials){
-      res.status(201).json({
-        status: " success",
+      res.json({
+        status: "success",
         materials
       })
     }
     else{
       res.json({
-        status:'failure',
+        status:"failure",
         message:" No Material Added Yet."
       })
     }
+    next();
 }
 exports.getStudentMaterials = async( req, res, next)=>{
   var date = new Date(Date.now() + 5*24*60*60*1000);

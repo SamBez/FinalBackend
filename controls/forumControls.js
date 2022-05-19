@@ -77,7 +77,7 @@ exports.myQuestions = async (req, res, next) => {
   next();
 };
 exports.myAnswers = async (req, res, next) => {
-  
+
   const answers = await Answer.find({ qID: req.params.qID });
   console.log("answers "+ answers)
   if (answers) {
@@ -344,7 +344,6 @@ exports.rateAnswer = async (req, res, next) => {
   }
   next();
 };
-
 exports.listOfReportedQ = async(req, res, next)=>{
 let usersArray =[]
   const questions = await question.find({no_report: {$gt: 0}});
